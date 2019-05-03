@@ -1,0 +1,28 @@
+% ALGORITMO DE THOMAS MODIFICADO - SOLUÇÃO EXERCÍCIO 4.2 VERSTEEG
+% ALUNOS: LARISSA E JAIME
+clc; clear all; close all;
+e=[0;-125;-125;-125;-125]; %subdiagonal superior
+f=[375;250;250;250;375]; %diagonal principal
+g=[-125;-125;-125;-125]; %subdiagonal inferior
+r=[29000;4000;4000;4000;54000];
+x1=[0.002,0.006,0.01,0.014,0.018]; %distância entre cada nó
+n=length(f);
+for k=2:n %executa o laço com o comprimento do vetor f
+fator=e(k)/f(k-1);
+f(k)=f(k)-fator*g(k-1);
+r(k)=r(k)-fator*r(k-1);
+end
+x(n)=r(n)/f(n); %vetor solução
+for k=n-1:-1:1
+x(k)=(r(k)-g(k)*x(k+1))/f(k);
+end
+fprintf('T1: %.2f\n',x(1));
+fprintf('T2: %.2f\n',x(2));
+fprintf('T3: %.2f\n',x(3));
+fprintf('T4: %.2f\n',x(4));
+fprintf('T5: %.2f\n',x(5));
+%--------------------------------------------------------------------
+plot(x1,x,'-')
+title('Distribuição de Temperatura');
+xlabel('Distância em (m)');
+ylabel('Temperatura (ºC)');

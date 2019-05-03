@@ -1,0 +1,36 @@
+Algoritmo de Thomas para matrizes tridiagonais para o problema 4.1.
+% ALGORITMO DE THOMAS MODIFICADO - SOLUÇÃO EXERCÍCIO 4.1 VERSTEEG
+% ALUNOS: LARISSA E JAIME
+clc; clear all; close all;
+e=[0;-100;-100;-100;-100]; %subdiagonal superior
+f=[300;200;200;200;300]; %diagonal principal
+g=[-100;-100;-100;-100]; %subdiagonal inferior
+r=[20000;0;0;0;100000];
+x1=[0.05,0.15,0.25,0.35,0.45]; %distância entre cada nó
+n=length(f);
+for k=2:n %executa o laço com o comprimento do vetor f
+fator=e(k)/f(k-1);
+f(k)=f(k)-fator*g(k-1);
+r(k)=r(k)-fator*r(k-1);
+end
+x(n)=r(n)/f(n); %vetor solução
+for k=n-1:-1:1
+x(k)=(r(k)-g(k)*x(k+1))/f(k);
+end
+%---------------------------------------------------------------------
+-----
+disp('Coeficientes do polinômio de ajuste:')
+p=polyfit(x1,x,1) %ajuste polinomial 1ª ordem
+%---------------------------------------------------------------------
+-----
+fprintf('T1: %.2f\n',x(1));
+fprintf('T2: %.2f\n',x(2));
+fprintf('T3: %.2f\n',x(3));
+fprintf('T4: %.2f\n',x(4));
+fprintf('T5: %.2f\n',x(5));
+%---------------------------------------------------------------------
+-----
+plot(x1,x,'-')
+title('Distribuição de Temperatura');
+xlabel('Distância em (m)');
+ylabel('Temperatura (ºC)');
